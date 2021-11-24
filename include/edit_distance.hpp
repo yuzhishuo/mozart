@@ -17,7 +17,7 @@ class EditDistanceHelp {
         };
     public:
         /**
-         * @brief brief description Find the min edit distance and return the edit distance.
+         * @brief Find the min edit distance and return the edit distance.
          * will sotre the best path info in  std::string rs1, rs2
          * s1, s2 is the user given  std::string for caculating the edit distance
          * @param s1,s2 Input  std::strings.
@@ -26,7 +26,7 @@ class EditDistanceHelp {
          */
         static int CalcPath(const  std::string &s1, const  std::string &s2,  std::string &rs1,  std::string &rs2);
         /**
-         * Find the min edit distance only do not need path info.
+         * @brief  Find the min edit distance only do not need path info.
          */
         static int EditDistance(const  std::string& s1, const  std::string& s2);
     private:

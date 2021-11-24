@@ -1,24 +1,18 @@
 #include <iostream>
 #include <iomanip>
 
-#include "edit_distance.h"
+#include <edit_distance.hpp>
+
 using namespace std;
 using namespace mozart;
 
-/**
- * find the min edit distance and return the edit distance
- * will sotre the best path info in string rs1, rs2
- * s1, s2 is the user given string for caculating the edit distance
- */
 int  EditDistanceHelp::CalcPath(const string &s1, const string &s2, string &rs1, string &rs2)
 {
-    //first find min dist and store path info
     int len1 = s1.length();
     int len2 = s2.length();
 
     vector<vector<ArrayData>> array (len1 + 1, vector<ArrayData>(len2 + 1));
 
-    //kernal for finding the best path and store path info to array
     for (int i = 0; i <= len1; i++)
         SetArrayData(array[i][0], i, i - 1, 0);
     for (int j = 0; j <= len2; j++)
@@ -26,16 +20,15 @@ int  EditDistanceHelp::CalcPath(const string &s1, const string &s2, string &rs1,
     int min_dist;
     for (int i = 1; i <= len1; i++)
         for (int j = 1; j <= len2; j++) {
-            if (array[i -1][j].dist < array[i][j - 1].dist)  //can also be <=
+            if (array[i -1][j].dist < array[i][j - 1].dist)
                 SetArrayData(array[i][j], array[i - 1][j].dist + 1, i - 1, j);
             else
                 SetArrayData(array[i][j], array[i][j - 1].dist + 1, i, j - 1);
             min_dist = array[i - 1][j - 1].dist + (s1[i - 1] != s2[j - 1]);
-            if (min_dist < array[i][j].dist)  // < is OK but <= make modify high priority
+            if (min_dist < array[i][j].dist)
                 SetArrayData(array[i][j], min_dist, i - 1, j - 1);
         }
 
-    //store the best path result to  two result string  rs1 and rs2
     StoreResult(array, len1, len2, s1, s2, rs1, rs2);
     min_dist = array[len1][len2].dist;
 
@@ -52,11 +45,10 @@ int  EditDistanceHelp::CalcPath(const string &s1, const string &s2, string &rs1,
 }
 
 /**
- * find the min edit distance only do not need path info
+ * @brief find the min edit distance only do not need path info
  */
-int  EditDistanceHelp::EditDistance(const string& s1, const string& s2)
+int EditDistanceHelp::EditDistance(const string& s1, const string& s2)
 {
-    using std::min;
     int len1 = s1.length();
     int len2 = s2.length();
     int array[len1 + 1][len2 + 1];
@@ -72,7 +64,7 @@ int  EditDistanceHelp::EditDistance(const string& s1, const string& s2)
 }
 
 /**
- * Set all data members value for one array element
+ * @brief all data members value for one array element
  */
 void EditDistanceHelp::SetArrayData(ArrayData &a, int dist, int pre_x, int pre_y)
 {
@@ -82,7 +74,7 @@ void EditDistanceHelp::SetArrayData(ArrayData &a, int dist, int pre_x, int pre_y
 }
 
 /**
- * Based on the path info stored in array ,find the best path and store result to string rs1 and rs2
+ * @brief Based on the path info stored in array ,find the best path and store result to string rs1 and rs2
  */
 void  EditDistanceHelp::StoreResult(vector<std::vector<ArrayData>>& array, int index_x, int index_y,
                         const string &s1, const string &s2,
