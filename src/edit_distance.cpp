@@ -32,13 +32,14 @@ int  EditDistanceHelp::CalcPath(const string &s1, const string &s2, string &rs1,
     StoreResult(array, len1, len2, s1, s2, rs1, rs2);
     min_dist = array[len1][len2].dist;
 
-    //print array
+    #ifndef NDEBUG // test
     for (int i = 0; i <= len1; i++) {
         for (int j = 0; j <= len2; j++) {
             cout << "(" << array[i][j].pre_x << "," << setw(2) << array[i][j].pre_y << ")  ";
         }
         cout << endl;
     }
+    #endif
 
     //return min edit distance
     return min_dist;
